@@ -10,17 +10,18 @@ int main() {
 	srand(time(0));
 	bool play = true;
 	Map *mapka= new Map("Home", 0, 0);
-	Player *p1 = new Player("Majlek", 1, 500, 10, 16);
-	Mob *m1= new Mob("Slon", 2, 180, 12, 18);
+	Player *p1 = new Player("Majlek", 1, 500, 1, 50);
+	Mob *m1= new Mob("Slon", 2, 200, 20, 38);
 	Battle b(p1, m1);
+	
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Gra Alpha 0.0.01");
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(35);
 	sf::Texture hp;
 	sf::Texture hp1;
 	sf::Texture hp2;
-	hp.loadFromFile("gfx/hp.png");
-	hp1.loadFromFile("gfx/hp1.png");
+	hp.loadFromFile("gfx/bar0.png");
+	hp1.loadFromFile("gfx/bar1.png");
 	hp2.loadFromFile("gfx/hp2.png");
 	sf::Sprite hpS;
 	sf::Sprite hpS1;
@@ -44,12 +45,12 @@ int main() {
 			if (zdarz.type == sf::Event::Closed)
 				window.close();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				//p1->setHP(10);
-				int hp = (p1->curHP() / p1->maxHP());
-				std::cout << hp << "\n";
-
+				b.fight();
+				std::cout << m1->curHP() << " " << m1->maxHP() << "\n";
+				float hp = (static_cast<float>(m1->curHP()) / static_cast<float>(m1->maxHP()));
+				std::cout << hp*500 << "\n";
 				//hpS1.setScale(sf::Vector2f(f, 1));
-				//hpS1.setTextureRect(sf::IntRect(0,0, p1->showHP(), 210));
+				hpS1.setTextureRect(sf::IntRect(0,0, hp*500, 210));
 				//if (p1->showHP() <= 0)
 				//	std::cout << "SMIERC!\n";
 			}
@@ -61,9 +62,9 @@ int main() {
 		
 		window.clear(sf::Color::Black);
 		window.draw(text);
-		window.draw(hpS2);
-		window.draw(hpS1);
+		//window.draw(hpS2);
 		window.draw(hpS);
+		window.draw(hpS1);
 		window.display();
 	}
 
