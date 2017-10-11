@@ -4,31 +4,27 @@
 #include "player.h"
 #include "mob.h"
 #include "battle.h"
+#include "GUI.h"
 #include "SFML\Graphics.hpp"
+#include <vector>
+#include <memory>
 
 int main() {
-	srand(time(0));
-	bool play = true;
-	Map *mapka= new Map("Home", 0, 0);
-	Player *p1 = new Player("Majlek", 1, 500, 1, 50);
-	Mob *m1= new Mob("Slon", 2, 200, 20, 38);
-	Battle b(p1, m1);
-	
 	sf::RenderWindow window(sf::VideoMode(1024, 768), "Gra Alpha 0.0.01");
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(35);
-	sf::Texture hp;
-	sf::Texture hp1;
-	sf::Texture hp2;
-	hp.loadFromFile("gfx/bar0.png");
-	hp1.loadFromFile("gfx/bar1.png");
-	hp2.loadFromFile("gfx/hp2.png");
-	sf::Sprite hpS;
-	sf::Sprite hpS1;
-	sf::Sprite hpS2;
-	hpS.setTexture(hp);
-	hpS1.setTexture(hp1);
-	hpS2.setTexture(hp2);
+	srand(time(0));
+	bool play = true;
+	//hp bar
+	std::vector<std::unique_ptr<GUI>> hp;
+	hp.emplace_back(new GUI(window, "gfx/bar0.png"));
+	hp.emplace_back(new GUI(window, "gfx/bar1.png"));
+	//moby
+	std::vector<std::unique_ptr<Mob>> mobs;
+	mobs.emplace_back(new Mob("SLON", 1, 200, 10, 19));
+	//battle.push_back(m1);
+	//Player
+	Player *p1 = new Player("Majlek", 1, 500, 1, 50);
 	//sprit.setPosition(sf::Vector2f(0, 0));
 	//sprit.scale(sf::Vector2f(0.5f,0.5f));
 	//sprit.setPosition(sf::Vector2f(150, 360));
@@ -45,26 +41,29 @@ int main() {
 			if (zdarz.type == sf::Event::Closed)
 				window.close();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				b.fight();
-				std::cout << m1->curHP() << " " << m1->maxHP() << "\n";
-				float hp = (static_cast<float>(m1->curHP()) / static_cast<float>(m1->maxHP()));
-				std::cout << hp*500 << "\n";
-				//hpS1.setScale(sf::Vector2f(f, 1));
-				hpS1.setTextureRect(sf::IntRect(0,0, hp*500, 210));
-				//if (p1->showHP() <= 0)
-				//	std::cout << "SMIERC!\n";
+				std::cout << mobs[0]->curHP() << " " << mobs[0]->maxHP() << "\n";
+
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				//f = f + 10;
 				//hpS1.setTextureRect(sf::IntRect(0, 0,f, 210));
 			}
 		}
-		
+		//update
+		float hh = (static_cast<float>(mobs[0]->curHP()) / static_cast<float>(mobs[0]->maxHP()));
+		hp[1]->guiTextRect(hh);
+		if (mobs.size() > 0) {
+			Battle b(p1, mobs[0]);
+			//b.fight();
+		}
+		//	float hp = (static_cast<float>(m1->curHP()) / static_cast<float>(m1->maxHP()));
+			//hpS1.setTextureRect(sf::IntRect(0, 0, hp * 500, 210));
+		//}
+		//draw
 		window.clear(sf::Color::Black);
 		window.draw(text);
-		//window.draw(hpS2);
-		window.draw(hpS);
-		window.draw(hpS1);
+		for (auto& button : hp)
+			button->guiDraw();
 		window.display();
 	}
 
