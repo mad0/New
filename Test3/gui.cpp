@@ -1,5 +1,6 @@
 #include "gui.h"
 #include <iostream>
+
 GUI::GUI(sf::RenderWindow& _window, const std::string& _file) : window(_window), file(_file){
 	std::cout << "Tworze GUI...\n";
 	guiTexture.loadFromFile(file);
@@ -14,6 +15,6 @@ void GUI::guiDraw() {
 	window.draw(guiSrite);
 }
 
-void GUI::guiTextRect(int rect) {
-	guiSrite.setTextureRect(sf::IntRect(0, 0, rect * 500, 210));
+void GUI::guiTextRect(float rect) {
+	guiSrite.setTextureRect(sf::IntRect(0, 0, rect * 520, 210));
 }

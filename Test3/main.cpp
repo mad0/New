@@ -2,7 +2,6 @@
 #include <ctime>
 #include "map.h"
 #include "player.h"
-#include "mob.h"
 #include "battle.h"
 #include "GUI.h"
 #include "SFML\Graphics.hpp"
@@ -19,15 +18,16 @@ int main() {
 	std::vector<std::unique_ptr<GUI>> hp;
 	hp.emplace_back(new GUI(window, "gfx/bar0.png"));
 	hp.emplace_back(new GUI(window, "gfx/bar1.png"));
+	//std::vector<GUI*> hp;
+	//hp.push_back(new GUI(window, "gfx/bar0.png"));
+	//hp.push_back(new GUI(window, "gfx/bar1.png"));
 	//moby
-	std::vector<std::unique_ptr<Mob>> mobs;
+	std::vector<std::shared_ptr<Mob>> mobs;
 	mobs.emplace_back(new Mob("SLON", 1, 200, 10, 19));
-	//battle.push_back(m1);
+	//map
+	Map m("Mapa pierwsza", mobs);
 	//Player
-	Player *p1 = new Player("Majlek", 1, 500, 1, 50);
-	//sprit.setPosition(sf::Vector2f(0, 0));
-	//sprit.scale(sf::Vector2f(0.5f,0.5f));
-	//sprit.setPosition(sf::Vector2f(150, 360));
+	Player *p1 = new Player("Majlek", 1, 500, 1, 15);
 	sf::Font font;
 	font.loadFromFile("2.ttf");
 	sf::Text text;
@@ -38,8 +38,11 @@ int main() {
 	while (window.isOpen()) {
 		sf::Event zdarz;
 		while (window.pollEvent(zdarz)) {
-			if (zdarz.type == sf::Event::Closed)
+			if (zdarz.type == sf::Event::Closed) {
+				delete p1;
 				window.close();
+			}
+				
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				std::cout << mobs[0]->curHP() << " " << mobs[0]->maxHP() << "\n";
 
@@ -52,13 +55,14 @@ int main() {
 		//update
 		float hh = (static_cast<float>(mobs[0]->curHP()) / static_cast<float>(mobs[0]->maxHP()));
 		hp[1]->guiTextRect(hh);
-		if (mobs.size() > 0) {
-			Battle b(p1, mobs[0]);
-			//b.fight();
-		}
-		//	float hp = (static_cast<float>(m1->curHP()) / static_cast<float>(m1->maxHP()));
-			//hpS1.setTextureRect(sf::IntRect(0, 0, hp * 500, 210));
+
+		//if (mobs.size() > 0) {
+		//	Battle b(p1, mobs[0]);
+		//	b.fight();
 		//}
+		//else if (mobs[0]->curHP() <= 0) {
+		//	mobs.erase(mobs.end());
+		
 		//draw
 		window.clear(sf::Color::Black);
 		window.draw(text);

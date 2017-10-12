@@ -14,5 +14,5 @@ public:
 	~GUI();
 	void guiPosition();
 	void guiDraw();
-	void guiTextRect(int);
+	void guiTextRect(float);
 };

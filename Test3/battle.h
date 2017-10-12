@@ -1,14 +1,14 @@
 #pragma once
 #include "character.h"
-
+#include <memory>
 
 class Battle {
 private:
 	Character* ch1;
-	Character* ch2;
+	std::shared_ptr<Character> ch2;
 
 public:
 	void fight();
-	Battle(Character*, Character*);
+	Battle(Character*, std::shared_ptr<Character>);
 	~Battle();
 };

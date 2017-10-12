@@ -6,12 +6,11 @@
 
 class Map {
 private:
+	std::vector<int> map;
 	std::string map_name;
-	int min_lvl, max_lvl;
-
+	std::vector<std::shared_ptr<Mob>> creatures;
 public:
-	Map(const std::string&, const std::vector<std::unique_ptr<Mob>>);
-	std::vector<std::unique_ptr<Mob>> creatures;
+	Map(const std::string&, const std::vector<std::shared_ptr<Mob>>);
 	~Map();
 	const std::string& mapName();
 };

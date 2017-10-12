@@ -2,8 +2,7 @@
 #include <iostream>
 #include <conio.h>
 
-Battle::Battle(Character* _ch1, Character* _ch2) : ch1(_ch1), ch2(_ch2){
-
+Battle::Battle(Character* _ch1, std::shared_ptr<Character> _ch2) : ch1(_ch1), ch2(_ch2){
 }
 
 Battle::~Battle() {
