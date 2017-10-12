@@ -26,6 +26,7 @@ int main() {
 	mobs.emplace_back(new Mob("SLON", 1, 200, 10, 19));
 	//map
 	Map m("Mapa pierwsza", mobs);
+	m.mapGenerator(1);
 	//Player
 	Player *p1 = new Player("Majlek", 1, 500, 1, 15);
 	sf::Font font;
@@ -65,9 +66,10 @@ int main() {
 		
 		//draw
 		window.clear(sf::Color::Black);
-		window.draw(text);
-		for (auto& button : hp)
-			button->guiDraw();
+		//window.draw(text);
+		window.draw(m);
+		//for (auto& button : hp)
+		//	button->guiDraw();
 		window.display();
 	}
 
