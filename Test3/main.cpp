@@ -26,7 +26,7 @@ int main() {
 	mobs.emplace_back(new Mob("SLON", 1, 200, 10, 19));
 	//map
 	Map m("Mapa pierwsza", mobs);
-	m.mapGenerator(1);
+	m.mapGenerator(5);
 	//Player
 	Player *p1 = new Player("Majlek", 1, 500, 1, 15);
 	sf::Font font;
@@ -35,7 +35,7 @@ int main() {
 	text.setFont(font);
 	text.setFillColor(sf::Color::Black);
 	text.setString("Pocaluj mnie w dupe jesli nei wiesz o co chodzi");
-	text.setCharacterSize(19);
+	text.setCharacterSize(10);
 	while (window.isOpen()) {
 		sf::Event zdarz;
 		while (window.pollEvent(zdarz)) {
