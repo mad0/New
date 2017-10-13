@@ -1,14 +1,17 @@
 #include "map.h"
 #include <iostream>
+#include <cstdlib>
 
 Map::Map(const std::string& map_name, std::vector<std::shared_ptr<Mob>> creatures) :map_name(map_name), creatures(creatures) {
 	std::cout << "LOAD MAP: " << map_name << "\n\n";
 	if (!tex.loadFromFile("gfx/border.png"))
 		std::cout << "error\n";
-	sp.setTexture(tex);
-	sp.setColor(sf::Color::Red);
-	sp.setPosition(sf::Vector2f(300, 300));
-	spriteMap.push_back(sp);
+	mapBorder.setPrimitiveType(sf::LinesStrip);
+	mapBorder.resize(3);
+	mapBorder[0].position = (sf::Vector2f(0, 200));
+	mapBorder[1].position = (sf::Vector2f(350, 200));
+	mapBorder[2].position = (sf::Vector2f(350, 0));
+	std::cout << "Ile linii: " << mapBorder.getVertexCount() << "\n";
 }
 Map::~Map() {
 	std::cout << "DELETE MAP: " << map_name <<"\n";
@@ -16,42 +19,34 @@ Map::~Map() {
 
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	states.texture = &tex;
+	
 	for (auto& r : spriteMap)
 		target.draw(r);
-
+	target.draw(mapBorder);
 }
+
 const std::string& Map::mapName() {
 	return map_name;
 };
 
 void Map::mapGenerator(int grid) {
-	for (int z = 0; z < grid-1; z++) {
-		sf::Vector2f actPos = spriteMap[z].getPosition();
-		//sp.setTexture(tex);
-		Direction dir[4] = { LEFT, RIGHT, UP, DOWN };
-		int r = (std::rand() % 4) +0;
-		std::cout << r << "\n";
-		switch (Direction(dir[r])) {
-		case LEFT:
-			//sf::Vector2f nextPos(actPos.x-50, actPos.y);
-			//if ( (nextPos.x<0 || nextPos.y<0) )
-			//	std::cout<<"<0\n";
-			//sp.setPosition(;
-			break;
-		case RIGHT:
-			sp.setPosition(actPos.x + 50, actPos.y);
-			break;
-		case UP:
-			sp.setPosition(actPos.x, actPos.y-50);
-			break;
-		case DOWN:
-			sp.setPosition(actPos.x, actPos.y+50);
-			break;
+	int x[8] = {0, 50, 100, 150, 200, 250, 300, 350};
+	int y[5] = { 0, 50, 100, 150, 200};
+	for (int z = 0; z < grid; z++) {
+		int rx = std::rand() % 7 + 0;
+		int ry = std::rand() % 4 + 0;
+		sf::Vector2f pos(x[rx], y[ry]);
+		for (int w = 0; w <positions.size(); w++) {
+
 		}
-		//std::cout << startPos[dir] << "\n";
-		
-		
-		//sf::Vector2f pos(x*55, y*50);
+		std::cout << rx << " " << ry << "\n";
+		sf::Sprite sp;
+		sp.setTexture(tex);
+		sp.setPosition(sf::Vector2f(x[rx], y[ry]));
 		spriteMap.push_back(sp);
 	}
+	
+	std::cout << spriteMap.size();
+	
+	
 }

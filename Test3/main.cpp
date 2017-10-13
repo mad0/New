@@ -9,7 +9,7 @@
 #include <memory>
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1024, 768), "Gra Alpha 0.0.01");
+	sf::RenderWindow window(sf::VideoMode(1440, 900), "Gra Alpha 0.0.01");
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(35);
 	srand(time(0));
@@ -26,7 +26,7 @@ int main() {
 	mobs.emplace_back(new Mob("SLON", 1, 200, 10, 19));
 	//map
 	Map m("Mapa pierwsza", mobs);
-	m.mapGenerator(5);
+	m.mapGenerator(28);
 	//Player
 	Player *p1 = new Player("Majlek", 1, 500, 1, 15);
 	sf::Font font;
