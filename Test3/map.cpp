@@ -35,18 +35,17 @@ void Map::mapGenerator(int grid) {
 	for (int z = 0; z < grid; z++) {
 		int rx = std::rand() % 7 + 0;
 		int ry = std::rand() % 4 + 0;
-		sf::Vector2f pos(x[rx], y[ry]);
-		for (int w = 0; w <positions.size(); w++) {
-
-		}
+		sf::Vector2i pos(x[rx], y[ry]);
+		std::vector<sf::Sprite>::iterator iter;
+		
 		std::cout << rx << " " << ry << "\n";
 		sf::Sprite sp;
 		sp.setTexture(tex);
 		sp.setPosition(sf::Vector2f(x[rx], y[ry]));
 		spriteMap.push_back(sp);
+		for (auto it = spriteMap.begin(); it != spriteMap.end(); it++)
+			std::cout << "COORDS x: " << it->getPosition().x << "\n";
 	}
 	
-	std::cout << spriteMap.size();
-	
-	
+	std::cout << "ILOSC SPRITOW W KONTENERZE:" << spriteMap.size() << "\n";
 }

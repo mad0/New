@@ -26,7 +26,7 @@ int main() {
 	mobs.emplace_back(new Mob("SLON", 1, 200, 10, 19));
 	//map
 	Map m("Mapa pierwsza", mobs);
-	m.mapGenerator(28);
+	m.mapGenerator(3);
 	//Player
 	Player *p1 = new Player("Majlek", 1, 500, 1, 15);
 	sf::Font font;
