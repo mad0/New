@@ -19,10 +19,11 @@ Map::~Map() {
 
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	states.texture = &tex;
-	
+	target.draw(lines);
 	for (auto& r : spriteMap)
 		target.draw(r);
 	target.draw(mapBorder);
+	
 }
 
 const std::string& Map::mapName() {
@@ -32,20 +33,39 @@ const std::string& Map::mapName() {
 void Map::mapGenerator(int grid) {
 	int x[8] = {0, 50, 100, 150, 200, 250, 300, 350};
 	int y[5] = { 0, 50, 100, 150, 200};
-	for (int z = 0; z < grid; z++) {
+	int f = 0;
+	while (grid != 0) {
+		bool coll = false;
 		int rx = std::rand() % 7 + 0;
 		int ry = std::rand() % 4 + 0;
-		sf::Vector2i pos(x[rx], y[ry]);
-		std::vector<sf::Sprite>::iterator iter;
-		
-		std::cout << rx << " " << ry << "\n";
-		sf::Sprite sp;
-		sp.setTexture(tex);
-		sp.setPosition(sf::Vector2f(x[rx], y[ry]));
-		spriteMap.push_back(sp);
-		for (auto it = spriteMap.begin(); it != spriteMap.end(); it++)
-			std::cout << "COORDS x: " << it->getPosition().x << "\n";
+		sf::Vector2f pos(x[rx], y[ry]);
+		for (auto it = spriteMap.begin(); it != spriteMap.end(); it++) {
+			if (it->getPosition() == pos) {
+				std::cout << "POWTARZA SIE!!!\n";
+				coll = true;
+				f++;
+			}
+		}
+			if (!coll) {
+				sf::Sprite sp;
+				sp.setTexture(tex);
+				sp.setPosition(pos);
+				spriteMap.push_back(sp);
+				grid--;
+				std::cout << "ILOSC SPRITOW W KONTENERZE:" << spriteMap.size() << "\n";
+			}
 	}
-	
-	std::cout << "ILOSC SPRITOW W KONTENERZE:" << spriteMap.size() << "\n";
+	std::cout << f << "\n";
+
+		lines.setPrimitiveType(sf::LinesStrip);
+		lines.resize(7);
+		lines[0].position = sf::Vector2f(spriteMap[0].getGlobalBounds().left, spriteMap[0].getGlobalBounds().top);
+		lines[1].position = sf::Vector2f(spriteMap[1].getGlobalBounds().left, spriteMap[1].getGlobalBounds().top);
+		lines[2].position = sf::Vector2f(spriteMap[2].getGlobalBounds().left, spriteMap[2].getGlobalBounds().top);
+		lines[3].position = sf::Vector2f(spriteMap[3].getGlobalBounds().left, spriteMap[3].getGlobalBounds().top);
+		lines[4].position = sf::Vector2f(spriteMap[4].getGlobalBounds().left, spriteMap[4].getGlobalBounds().top);
+		lines[5].position = sf::Vector2f(spriteMap[5].getGlobalBounds().left, spriteMap[5].getGlobalBounds().top);
+
+
+	//}
 }

@@ -9,6 +9,7 @@ class Map : public sf::Drawable {
 private:
 	sf::Texture tex;
 	sf::VertexArray mapBorder;
+	sf::VertexArray lines;
 	//std::vector<int> map;
 	std::string map_name;
 	std::vector<std::shared_ptr<Mob>> creatures;
