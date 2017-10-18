@@ -9,7 +9,9 @@
 #include <memory>
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1440, 900), "Gra Alpha 0.0.01");
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 8;
+	sf::RenderWindow window(sf::VideoMode(1440, 900), "Gra Alpha 0.0.01", sf::Style::Default, settings);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(35);
 	srand(time(0));

@@ -1,6 +1,7 @@
 #include "map.h"
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 Map::Map(const std::string& map_name, std::vector<std::shared_ptr<Mob>> creatures) :map_name(map_name), creatures(creatures) {
 	std::cout << "LOAD MAP: " << map_name << "\n\n";
@@ -12,6 +13,7 @@ Map::Map(const std::string& map_name, std::vector<std::shared_ptr<Mob>> creature
 	mapBorder[1].position = (sf::Vector2f(350, 200));
 	mapBorder[2].position = (sf::Vector2f(350, 0));
 	std::cout << "Ile linii: " << mapBorder.getVertexCount() << "\n";
+	fnt.loadFromFile("Gameplay.ttf");
 }
 Map::~Map() {
 	std::cout << "DELETE MAP: " << map_name <<"\n";
@@ -23,6 +25,8 @@ void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	for (auto& r : spriteMap)
 		target.draw(r);
 	target.draw(mapBorder);
+	for (auto& r : txt)
+		target.draw(r);
 	
 }
 
@@ -55,17 +59,28 @@ void Map::mapGenerator(int grid) {
 				std::cout << "ILOSC SPRITOW W KONTENERZE:" << spriteMap.size() << "\n";
 			}
 	}
-	std::cout << f << "\n";
-
 		lines.setPrimitiveType(sf::LinesStrip);
-		lines.resize(7);
-		lines[0].position = sf::Vector2f(spriteMap[0].getGlobalBounds().left, spriteMap[0].getGlobalBounds().top);
-		lines[1].position = sf::Vector2f(spriteMap[1].getGlobalBounds().left, spriteMap[1].getGlobalBounds().top);
-		lines[2].position = sf::Vector2f(spriteMap[2].getGlobalBounds().left, spriteMap[2].getGlobalBounds().top);
-		lines[3].position = sf::Vector2f(spriteMap[3].getGlobalBounds().left, spriteMap[3].getGlobalBounds().top);
-		lines[4].position = sf::Vector2f(spriteMap[4].getGlobalBounds().left, spriteMap[4].getGlobalBounds().top);
-		lines[5].position = sf::Vector2f(spriteMap[5].getGlobalBounds().left, spriteMap[5].getGlobalBounds().top);
-
-
-	//}
-}
+		lines.resize(11);
+		
+		for (int c = 0; c < 6; c++) {
+			sf::Text tx;
+			tx.setFont(fnt);
+			tx.setCharacterSize(20);
+			tx.setString(std::to_string(c + 1));
+			tx.setPosition(spriteMap[c].getPosition().x + 25, spriteMap[c].getPosition().y + 20);
+			txt.push_back(tx);
+			lines[0].position = sf::Vector2f(spriteMap[0].getPosition().x + 25, spriteMap[0].getPosition().y + 25);
+			lines[1].position = sf::Vector2f(spriteMap[0].getPosition().x + 25, spriteMap[1].getPosition().y + 25);
+			lines[2].position = sf::Vector2f(spriteMap[1].getPosition().x + 25, spriteMap[1].getPosition().y + 25);
+			lines[3].position = sf::Vector2f(spriteMap[1].getPosition().x + 25, spriteMap[2].getPosition().y + 25);
+			lines[4].position = sf::Vector2f(spriteMap[2].getPosition().x + 25, spriteMap[2].getPosition().y + 25);
+			lines[5].position = sf::Vector2f(spriteMap[2].getPosition().x + 25, spriteMap[3].getPosition().y + 25);
+			lines[6].position = sf::Vector2f(spriteMap[3].getPosition().x + 25, spriteMap[3].getPosition().y + 25);
+			lines[7].position = sf::Vector2f(spriteMap[3].getPosition().x + 25, spriteMap[4].getPosition().y + 25);
+			lines[8].position = sf::Vector2f(spriteMap[4].getPosition().x + 25, spriteMap[4].getPosition().y + 25);
+			lines[9].position = sf::Vector2f(spriteMap[4].getPosition().x + 25, spriteMap[5].getPosition().y + 25);
+			lines[10].position = sf::Vector2f(spriteMap[5].getPosition().x + 25, spriteMap[5].getPosition().y + 25);
+			//lines[5].position = sf::Vector2f(spriteMap[0].getPosition().x + 25, spriteMap[1].getPosition().y + 25);
+		}
+		
+}			
